@@ -1,0 +1,196 @@
+= 常駐アプリ等を軽く出来ないかな?な試み
+Kenichiro Matohara <maroken@kagolug.org>
+:revnumber: 0.9
+:revdate: 2020-10-31
+:revremark: 小江戸らぐ 11月のオフな集まり(第220回)@オンライン(Zoom) 「{doctitle}」
+:homepage: https://matoken.org/
+:imagesdir: resources
+:data-uri:
+:backend: revealjs
+:revealjs_theme: serif
+:customcss: resources/my-css.css
+:revealjs_slideNumber: c/t
+:title-slide-transition: none
+:icons: font
+:revealjs_hash: true
+:revealjs_center: true
+:revealjs_autoPlayMedia: true
+:revealjs_transition: false  
+:revealjs_transitionSpeed: fast
+
+== link:https://matoken.org[Kenichiro Matohara(matoken) https://matoken.org]
+
+image::map.jpg[background, size=cover]
+
+* 南隅から参加(鹿児島の右下)
+* 好きなLinuxディストリビューションはDebian
+* お仕事募集 mailto:work@matohara.org
+
+=== 最近の発表
+
+* link:https://www.edocr.com/v/a8qpzl0w/matoken/BterfsSnapperDiskFull[Bterfs+SnapperでDiskFullになって困った話]
+** link:https://koedolug.connpass.com/event/191966/[小江戸らぐ 11月のオフな集まり(第220回)@オンライン(Zoom)] 2020-11-14
+* link:https://www.edocr.com/v/lnpk33mw/matoken/Twitter[Twitterをちっちゃいリソースで]
+** link:https://kagolug.connpass.com/event/197079/[鹿児島Linux勉強会 2020.11@オープンソースカンファレンス福岡(オンライン開催)] 2020-11-28
+
+== 鹿児島らぐ
+
+* 前回
+** link:https://kagolug.connpass.com/event/197079/[鹿児島Linux勉強会 2020.11@オープンソースカンファレンス福岡(オンライン開催)] 2020-11-28  +
+PSC20FK内で開催いつもの感じで1コマで3発表，資料や動画もアップロードされています
+
+* 次回  12/26(sat)
+** link:https://kagolug.connpass.com/event/197081/[鹿児島Linux勉強会 2020.12(オンライン開催)]  +
+オンライン開催，鹿児島に拘らず参加者募集中
+
+== いつのまにか沢山のアプリが常駐
+
+* Slack
+* Signal
+* Telegram
+* Discord 等々
+
+全部Electronアプリ，リソースが無駄そう．主にテキストをやり取りするのにメモリ550MB〜 x アプリ数  +
+CPUはそこまででもないけど全部起動するとCPUファンが五月蝿い
+
+== Chromiumにまとめてみる
+
+* ElectronはChromium + Node.jsなはずなのでChromiumにまとめたらましになる?
+* タブやウィンドウごとにプロセスが出来るせいかむしろ体感は重くなった?
+* 使い勝手も低下
+
+////
+== 他の手段を考える
+
+* CLI版
+** Slack -> slack-term
+** Discord -> cordless, 6cord
+* Android版
+////
+
+== CLI/TUIアプリを試す
+
+== slack-term
+
+* link:https://github.com/erroneousboat/slack-term[erroneousboat/slack-term: Slack client for your terminal] Go製 MIT License
+* https://github.com/erroneousboat/slack-term/wiki を参考にtokenを入手&設定ファイル作成
+* 絵文字を有効に -> 設定ファイルで `"emoji": true`
+* 1チャンネルにしか対応していない?
+* チャンネル毎に設定を作って起動?
+
+== cordless
+
+* link:https://github.com/Bios-Marcel/cordless[Bios-Marcel/cordless: The Discord terminal client you never knew you wanted.] Go製  BSD-3-Clause License
+* https://github.com/Bios-Marcel/cordless/wiki/Retrieving-your-token を参考にtokenを入手&設定
+* 普通に使えるけど開発者がDiscrodをbanされたりしている
+
+== 6cord
+
+* link:https://gitlab.com/diamondburned/6cord[diamondburned (Forefront) / 6cord · GitLab] Go製 Mozilla Public  License
+* SIXEL対応環境だと画像も表示できる :)
+* しかし非推奨になって gtkcord3 をおすすめされる
+
+=== 6cordで画像表示
+
+image::20201205_07:12:39-2830523-small.jpg[background, size=cover]
+
+== telegram-cli
+
+* link:https://github.com/vysheng/tg[vysheng/tg: telegram-cli] c製 GPLv2
+
+== signal-cli
+
+* link:https://github.com/AsamK/signal-cli[AsamK/signal-cli: signal-cli provides a commandline and dbus interface for signalapp/libsignal-service-java] Java製 GPLv3
+
+== twitter
+
+* mobile.twitter.com もうすぐ廃止 2020-12-15
+** 今の所 twitter.com もw3m等で利用できるけどメディア等が展開されない
+* web閲覧，検索等 -> link:https://nitter.net/[Nitter] JavaScriptも必須ではない軽い
+* リアルタイム検索 -> sayaka(SIXELで画像対応)
+
+Nitter詳細 -> link:https://www.edocr.com/v/lnpk33mw/matoken/Twitter[Twitterをちっちゃいリソースで]
+
+=== JavaScript offでもいい感じなNitter
+
+image::20201127_05:11:01-505431.jpg[background, size=cover]
+
+=== w3mでも
+
+image::w3m+nitter.jpg[background, size=cover]
+
+== e-mail
+
+* mutt + imap
+** termina MUA自分的今昔  +
+mew -> alpine -> mutt(イマココ) -> neo mutt?
+* gmailについては検索が速いのでWeb版も併用
+
+== CLI/TUIアプリ
+
+* VPSで起動しっぱなしにしておいたり出来て便利，tmuxで切り替えると便利
+* SBCで起動しておいてもいいかも
+* メディアは基本的に使えない
+* 通知が分かりづらい
+* いつもはこれを起動しておいてメディアなどを見たい場合アプリで確認?
+* node製のものも多いけど自分は重く感じるので避けている
+
+== Androidアプリを画面転送してPCで使う
+
+=== scrcpy
+
+* link:https://github.com/Genymobile/scrcpy[Genymobile/scrcpy: Display and control your Android device] Apache License 2.0
+* USBやネットワーク経由でAndroid画面をPCに転送して操作できるアプリケーション
+* Linux/Windows/macOSで動作，Linuxは公式パッケージやsnap(armhf/amd64/i386)
+* Android API 21+ (Android 5.0+)
+* adbの設定を行いUSBデバッグが有効になっている必要がある
+
+=== Android画面転送
+
+* Android版公式アプリが使える
+** 公式アプリならBANされる心配がない
+* 動画視聴も可能だったのでビデオチャット等も?
+* 入力，操作は少し面倒
+** 文字入力はPC側で入力して貼り付ける?
+* スクリーンショット制限のあるアプリでも転送&スクリーンショット取得できてしまう
+* USBデバッグが有効だと起動しないアプリがある
+
+=== ただのスクリーンショットと変わらなく見える
+
+image:20201210_21:12:59-2112960.jpg[width=25%]
+image:20201210_21:12:30-2115127.jpg[width=25%]
+
+=== スクリーンショット不可のアプリでも撮れてしまったり
+
+image:20201210_22:12:28-2236463.jpg[size=cover]
+
+=== USBデバッグ有効で起動しないアプリがある
+
+image:20201210_22:12:18-2247583.jpg[size=cover]
+
+== その他
+
+* Pidgin + libpurpleで各種サービスを一元管理?(未確認)  +
+purple-discord, purple-matrix, purple-rocketchat, purple-xmpp-carbons, telegram-purple, pidgin-skype (Debian pkg)
+* ある程度太い回線があればデスクトップ転送もありかも
+** Xrdp, VNC, X転送(家の回線だと Xpra encoding=png/L + ssh などでもすぐ切れる)
+
+== おすすめのサービスやアプリなど教えてください
+
+* こういうアプリがあるよ
+* こういう方法を使っている
+
+=== 発表中に教えてもらったもの
+
+* link:https://rambox.pro/[Rambox - Boost your productivity]
+** 沢山のサービス(600+, 無料プランは99+)に一元的にアクセスできる
+** Linux版はAppImage, deb, rpm, snap, binaryがある(全てx64)
+
+== 奥付
+
+* 発表
+** link:https://koedolug.connpass.com/event/195807/[小江戸らぐ 12月のオフな集まり(第221回)@オンライン(Zoom)] 2020-12-12(土)
+* 発表者
+** link:https://matoken.org/[Kenichiro Matohara(matoken)]
+* ライセンス
+** CC BY-NC-SA 4.0
