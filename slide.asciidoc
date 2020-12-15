@@ -1,8 +1,8 @@
 = 常駐アプリ等を軽く出来ないかな?な試み
 Kenichiro Matohara <maroken@kagolug.org>
 :revnumber: 0.9
-:revdate: 2020-10-31
-:revremark: 小江戸らぐ 11月のオフな集まり(第220回)@オンライン(Zoom) 「{doctitle}」
+:revdate: 2020-12-12(Sat)
+:revremark: 小江戸らぐ 12月のオフな集まり(第221回)@オンライン(Zoom) 「{doctitle}」
 :homepage: https://matoken.org/
 :imagesdir: resources
 :data-uri:
